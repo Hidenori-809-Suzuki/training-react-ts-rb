@@ -4,9 +4,23 @@ import { Plan } from "./Home";
 type Props = {
   plans: Plan[];
   plansCount: number | undefined;
+  error: boolean;
 };
 
-const Result: React.FC<Props> = ({ plans, plansCount }) => {
+const Result: React.FC<Props> = ({ plans, plansCount, error }) => {
+  if (error) {
+    return (
+        <div className="wrapper">
+            <div className="ui negative message">
+                <i className="close icon"></i>
+                <div className="header">エラーが発生しました。</div>
+                検索条件を見直すか、管理者にお問い合わせください。
+                {error}
+            </div>
+        </div>
+    );
+  }
+  
   if (plansCount === 0) {
     return (
       <div className="wrapper">
@@ -18,7 +32,7 @@ const Result: React.FC<Props> = ({ plans, plansCount }) => {
       </div>
     );
   }
-  
+
   const result = plans.map((plan: Plan) => {
     return (
       <div className="item" key={plan.plan_id}>
